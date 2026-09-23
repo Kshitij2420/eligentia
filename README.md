@@ -196,9 +196,11 @@ cd client
 npm run dev
 ```
 
-Frontend: http://localhost:5173
-Backend health check: http://localhost:5000/api/health
+Frontend: https://eligentiaa24.vercel.app
+Backend health check: https://eligentia-api.onrender.com
+API: https://eligentia-api.onrender.com/api
 
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-ELIGENTIA-blue?style=for-the-badge)](https://eligentiaa24.vercel.app/)
 ## Demo Credentials
 
 **Admin**
