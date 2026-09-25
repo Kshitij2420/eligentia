@@ -1,266 +1,889 @@
-# ELIGENTIA
+# 🎓 ELIGENTIA
 
 ### Smart Eligibility & Placement Intelligence Platform
 
-**Know Your Fit. Find Your Gaps. Build Your Future.**
+> **Know Your Fit. Find Your Gaps. Build Your Future.**
+
+ELIGENTIA is a MERN-stack web application designed to help students understand how well their profile matches a job opportunity.
+
+Users can provide their academic and technical profile along with job requirements, and ELIGENTIA analyzes the information to provide an eligibility/match assessment, identify skill gaps, and suggest areas for improvement.
 
 ---
 
-## Overview
+## 🚀 Live Project
 
-ELIGENTIA is a MERN-based Smart Eligibility & Placement Intelligence Platform designed to enhance the college placement process. Instead of simply listing placement opportunities, ELIGENTIA compares a student's academic profile, skills, projects, certifications and resume information with individual job requirements. It calculates a transparent match percentage, identifies missing skills and eligibility gaps, and provides personalized improvement suggestions to help students become more placement-ready.
+🌐 **Live Demo:**
+https://eligentiaa24.vercel.app/
 
-## Problem Statement
+🔗 **Backend API:**
+https://eligentia-api.onrender.com/
 
-Traditional college placement portals are static job boards: they list opportunities but leave students to guess whether they qualify and how competitive their profile actually is. Students waste time applying to roles they're not eligible for, or miss roles they'd be strong candidates for, simply because there's no feedback loop between a student's profile and a job's requirements.
+🔗 **GitHub Repository:**
+https://github.com/Kshitij2420/eligentia
 
-## Solution
+---
 
-ELIGENTIA introduces a **Smart Eligibility & Resume Matching** engine that runs every time a student views a job. It answers, in real time:
+## 📌 Why ELIGENTIA?
 
-1. Am I eligible?
-2. How closely does my profile match this job?
-3. What skills do I already have?
-4. What skills am I missing?
-5. What should I learn or improve?
-6. How can I improve my placement readiness overall?
+Students often apply for jobs without clearly understanding:
 
-## Main Innovation — the Matching Engine
+* Whether they satisfy the eligibility criteria
+* Which required skills they already possess
+* Which skills are missing
+* Where their profile needs improvement
+* How closely their profile matches a particular opportunity
 
-**Eligibility** and **Match Percentage** are deliberately separate outputs:
+ELIGENTIA brings these factors together into one platform.
 
-- **Eligibility** is a hard pass/fail check against course, branch, graduation year, minimum CGPA, and maximum backlogs.
-- **Match Percentage** is a continuous, weighted score (0–100%) calculated *regardless* of eligibility outcome, so an ineligible student can still see how strong their profile is.
+### Example
 
-The score is a transparent, weighted sum — no random numbers, no black-box AI:
+A company requires:
 
-| Component            | Weight |
-|-----------------------|--------|
-| Academics              | 20%   |
-| Required Skills        | 50%   |
-| Preferred Skills       | 10%   |
-| Projects                | 10%   |
-| Certifications/Experience | 10% |
-
-Weights live in one place (`server/services/matchingEngine.js`) and are easy to tune.
-
-## Features
-
-- Student registration/login, profile builder (education, skills, projects, certifications, social links)
-- Resume upload (PDF/DOCX) with basic text extraction and a resume-completeness score
-- Admin-managed companies and placement drives with configurable eligibility criteria and skill requirements
-- Per-job eligibility check + match percentage + matched/missing skills + improvement suggestions
-- Placement readiness score (technical skills, academics, projects, resume, certifications)
-- Job applications with duplicate prevention, status tracking (Applied → Under Review → Shortlisted → Selected/Rejected)
-- In-app notifications (new jobs, status changes)
-- Admin dashboard: student/company/job counts, application status breakdown, most common missing skills across all applicants
-- JWT authentication with role-based authorization (student / admin)
-
-## Technology Stack
-
-**Frontend:** React, Vite, React Router, Tailwind CSS, Axios, Lucide React, Recharts
-**Backend:** Node.js, Express.js, MongoDB, Mongoose, JWT, bcryptjs, Multer, dotenv, cors
-
-## Architecture
-
-```
-Student Profile / Resume
-        ↓
-  Job Requirements
-        ↓
-  Eligibility Check
-        ↓
-Profile-Job Matching
-        ↓
-  Match Percentage
-        ↓
-  Matched Skills
-        ↓
-  Missing Skills
-        ↓
-Improvement Suggestions
-        ↓
-Placement Readiness
-        ↓
-   Job Application
+```text
+Java
+SQL
+React
+Node.js
+MongoDB
+Git
 ```
 
-## Folder Structure
+A student has:
 
+```text
+Java
+SQL
+React
+Git
 ```
+
+ELIGENTIA can identify:
+
+```text
+Match: 66%
+
+Matched Skills:
+✓ Java
+✓ SQL
+✓ React
+✓ Git
+
+Missing Skills:
+✗ Node.js
+✗ MongoDB
+```
+
+The student can then focus on the missing skills before applying.
+
+---
+
+# ✨ Key Features
+
+### 👤 Student Profile
+
+Create and manage a profile containing relevant academic and technical information.
+
+### 📄 Resume & Profile Analysis
+
+Provide profile/resume information for eligibility analysis.
+
+### 🎯 Eligibility Matching
+
+Compare student information against job requirements.
+
+### 📊 Match Percentage
+
+Get a clear indication of how closely the profile matches the selected opportunity.
+
+### 🔍 Skill Gap Detection
+
+Identify skills required by a job but missing from the student's profile.
+
+### 💡 Improvement Suggestions
+
+Receive suggestions about areas that can be improved before applying.
+
+### 🔐 Authentication
+
+Secure user registration and login using:
+
+* JWT authentication
+* Password protection
+* Protected API routes
+
+### 📁 Resume Upload
+
+The backend supports resume upload and processing workflows.
+
+### 📈 Dashboard
+
+A centralized dashboard allows users to view their profile and analysis information.
+
+### 🐳 Docker Support
+
+The complete application can be executed using Docker Compose.
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+* React.js
+* Vite
+* JavaScript
+* HTML5
+* CSS
+* Tailwind CSS
+* React Router
+* Axios
+* Recharts
+* Lucide React
+
+## Backend
+
+* Node.js
+* Express.js
+* JavaScript
+* REST API
+* JWT
+* Multer / file upload handling
+
+## Database
+
+* MongoDB
+* MongoDB Atlas
+
+## DevOps / Deployment
+
+* Docker
+* Docker Compose
+* Nginx
+* Docker Desktop
+* WSL 2
+* Git
+* GitHub
+
+## Deployment
+
+* Frontend → Vercel
+* Backend → Render
+* Database → MongoDB Atlas
+
+---
+
+# 🏗️ Project Architecture
+
+```text
+                         ┌──────────────────────┐
+                         │       User           │
+                         │      Browser         │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │   React Frontend     │
+                         │      + Vite          │
+                         └──────────┬───────────┘
+                                    │
+                              HTTP / REST API
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │   Node.js + Express  │
+                         │      Backend API     │
+                         └──────────┬───────────┘
+                                    │
+                  ┌─────────────────┴─────────────────┐
+                  │                                   │
+                  ▼                                   ▼
+        ┌───────────────────┐              ┌───────────────────┐
+        │    JWT Auth       │              │   MongoDB Atlas   │
+        │  Protected APIs   │              │     Database      │
+        └───────────────────┘              └───────────────────┘
+```
+
+---
+
+# 📂 Project Structure
+
+```text
 eligentia/
-├── client/                  # React frontend (Vite)
-│   └── src/
-│       ├── components/      # Navbar, Sidebar, MatchScore, JobCard, SkillGap...
-│       ├── pages/
-│       │   ├── student/     # Dashboard, Profile, Resume, Jobs, JobDetails, Applications, Notifications
-│       │   └── admin/       # Dashboard, Students, Companies, PlacementDrives, Applications
-│       ├── context/         # AuthContext
-│       └── services/        # api.js (Axios client)
 │
-└── server/                  # Express backend
-    ├── controllers/
-    ├── models/               # User, StudentProfile, Resume, Company, PlacementDrive, Application, Notification
-    ├── routes/
-    ├── middleware/           # authMiddleware, roleMiddleware, errorMiddleware
-    ├── services/             # matchingEngine.js, resumeParser.js, notificationService.js
-    └── utils/seedData.js
+├── client/
+│   ├── src/
+│   ├── public/
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── uploads/
+│   ├── utils/
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── package.json
+│   └── server.js
+│
+├── docker-compose.yml
+├── .gitignore
+└── README.md
 ```
 
-## Database Design
+---
 
-- **User** — name, email, hashed password, role (student/admin)
-- **StudentProfile** — 1:1 with User; personalInfo, education, skills (by category), projects, certifications, socialLinks
-- **Resume** — latest uploaded file per student, extracted text, detected skills
-- **Company** — name, industry, description, website
-- **PlacementDrive** — belongs to a Company; eligibilityCriteria, requiredSkills, preferredSkills, deadline, status
-- **Application** — links a student to a drive; stores the match snapshot at time of application (matchPercentage, matchedSkills, missingSkills) and a status
-- **Notification** — per-user, typed (new_job / status_update / match_ready / general), read flag
+# 🔄 Application Flow
 
-## Matching Algorithm (Detail)
-
-1. **Eligibility check** — course, branch, graduation year, CGPA, backlogs against the drive's criteria. Any failure produces a human-readable reason (e.g. *"Your CGPA is below the company's minimum requirement of 7.5."*).
-2. **Academic score** — rewards CGPA headroom above the minimum and a clean backlog record.
-3. **Required/Preferred skill match** — set comparison between the student's flattened skill list and the drive's skill lists; returns matched/missing arrays and a percentage.
-4. **Project score** — credits required/preferred skills that appear in the student's project tech stacks, plus a small baseline for having projects at all.
-5. **Certification score** — simple count-based scaling.
-6. **Weighted total** — combined per the weights table above, rounded to the nearest integer, clamped to 0–100.
-7. **Improvement suggestions** — for each missing skill, a short, curated piece of advice (falls back to a generic "build a small project" suggestion for unrecognized skills). Framed as *"Estimated improvement based on the matching algorithm"* — never a guarantee of selection.
-
-## Installation
-
-### Prerequisites
-- Node.js 18+
-- A MongoDB connection (local `mongod` or a free MongoDB Atlas cluster)
-
-### 1. Clone and install
-
-```bash
-# Backend
-cd server
-npm install
-
-# Frontend
-cd ../client
-npm install
+```text
+User
+ │
+ ▼
+Register / Login
+ │
+ ▼
+JWT Authentication
+ │
+ ▼
+Student Profile
+ │
+ ▼
+Job Requirements
+ │
+ ▼
+Eligibility Analysis
+ │
+ ├── Match Percentage
+ │
+ ├── Matched Skills
+ │
+ ├── Missing Skills
+ │
+ └── Improvement Suggestions
+ │
+ ▼
+Dashboard / Results
 ```
 
-### 2. Environment setup
+---
 
-```bash
-# server/.env
-cp server/.env.example server/.env
+# 🔐 Authentication Flow
+
+ELIGENTIA uses JWT-based authentication.
+
+```text
+User
+ │
+ ▼
+Login
+ │
+ ▼
+Express Backend
+ │
+ ▼
+Credentials Validation
+ │
+ ▼
+JWT Token
+ │
+ ▼
+Frontend
+ │
+ ▼
+Protected API Requests
+ │
+ ▼
+JWT Middleware
+ │
+ ▼
+Authorized Resource
 ```
 
-Edit `server/.env`:
+Protected backend routes verify the JWT before allowing access to authenticated resources.
 
+---
+
+# ⚙️ Environment Variables
+
+## Backend
+
+Create:
+
+```text
+server/.env
 ```
+
+Example:
+
+```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-JWT_EXPIRES_IN=7d
+JWT_SECRET=your_jwt_secret
 CLIENT_URL=http://localhost:5173
 ```
 
-```bash
-# client/.env
-cp client/.env.example client/.env
-```
+> Never commit `.env` files containing secrets to GitHub.
 
-```
+---
+
+## Frontend
+
+For local development:
+
+```env
 VITE_API_URL=http://localhost:5000/api
 ```
 
-### 3. MongoDB setup
+The project also provides:
 
-Use a local MongoDB instance, or create a free cluster at [MongoDB Atlas](https://www.mongodb.com/atlas) and paste its connection string into `MONGO_URI`.
-
-### 4. Seed demo data
-
-```bash
-cd server
-npm run seed
+```text
+client/.env.example
 ```
 
-This creates 1 admin, 5 students (with deliberately varied CGPA/skills/backlogs so different students get different match results), 3 companies, and 5 placement drives.
+as a reference for configuring the frontend.
 
-### 5. Run
+---
 
-```bash
-# Terminal 1 — backend
-cd server
-npm run dev      # or: npm start
+# 🐳 Docker Documentation
 
-# Terminal 2 — frontend
+ELIGENTIA uses a multi-container Docker architecture.
+
+```text
+┌───────────────────────────────────────────────┐
+│              Docker Compose                   │
+│                                               │
+│   ┌────────────────┐    ┌────────────────┐    │
+│   │     Client     │    │     Server     │    │
+│   │                │    │                │    │
+│   │ React + Nginx  │───▶│ Node + Express │    │
+│   │   Port 5173    │    │   Port 5000    │    │
+│   └────────────────┘    └───────┬────────┘    │
+│                                  │             │
+└──────────────────────────────────┼─────────────┘
+                                   │
+                                   ▼
+                          MongoDB Atlas
+```
+
+---
+
+## Docker Files
+
+### `client/Dockerfile`
+
+The frontend uses a **multi-stage Docker build**.
+
+```text
+Node.js
+   │
+   ▼
+Install dependencies
+   │
+   ▼
+Build React application
+   │
+   ▼
+Generate /dist
+   │
+   ▼
+Nginx Alpine
+   │
+   ▼
+Serve production frontend
+```
+
+The final container uses Nginx instead of running the Vite development server.
+
+---
+
+### `server/Dockerfile`
+
+The backend container:
+
+1. Uses Node.js 20 Alpine
+2. Creates `/app`
+3. Installs dependencies
+4. Copies backend source code
+5. Exposes port `5000`
+6. Starts the Express server
+
+---
+
+# 🐳 Docker Compose
+
+The root file:
+
+```text
+docker-compose.yml
+```
+
+orchestrates both services.
+
+```yaml
+services:
+
+  server:
+    build:
+      context: ./server
+    container_name: eligentia-server
+    env_file:
+      - ./server/.env
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+    container_name: eligentia-client
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+```
+
+### Services
+
+| Service  | Technology     | Container Port | Local Port |
+| -------- | -------------- | -------------: | ---------: |
+| Client   | React + Nginx  |             80 |       5173 |
+| Server   | Node + Express |           5000 |       5000 |
+| Database | MongoDB Atlas  |          Cloud |      Cloud |
+
+---
+
+# ▶️ Running ELIGENTIA with Docker
+
+## Prerequisites
+
+Install:
+
+* Docker Desktop
+* WSL 2
+* Git
+
+Verify Docker:
+
+```powershell
+docker --version
+```
+
+Verify Compose:
+
+```powershell
+docker compose version
+```
+
+---
+
+## 1. Clone Repository
+
+```powershell
+git clone https://github.com/Kshitij2420/eligentia.git
+```
+
+Move into the project:
+
+```powershell
+cd eligentia
+```
+
+---
+
+## 2. Configure Backend Environment
+
+Create:
+
+```text
+server/.env
+```
+
+Add your MongoDB and JWT configuration:
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret
+CLIENT_URL=http://localhost:5173
+```
+
+---
+
+## 3. Build and Start Containers
+
+```powershell
+docker compose up -d --build
+```
+
+This command:
+
+* Builds the frontend image
+* Builds the backend image
+* Creates the Docker network
+* Creates both containers
+* Starts the application in background mode
+
+---
+
+## 4. Check Containers
+
+```powershell
+docker compose ps
+```
+
+Expected:
+
+```text
+NAME               STATUS
+eligentia-client   Up
+eligentia-server   Up
+```
+
+---
+
+## 5. Open Application
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+Backend:
+
+```text
+http://localhost:5000
+```
+
+Health endpoint:
+
+```text
+http://localhost:5000/api/health
+```
+
+Expected response:
+
+```json
+{
+  "success": true,
+  "message": "ELIGENTIA API is running"
+}
+```
+
+---
+
+# 🧰 Useful Docker Commands
+
+### Start application
+
+```powershell
+docker compose up -d
+```
+
+### Start and rebuild
+
+```powershell
+docker compose up -d --build
+```
+
+### Stop containers
+
+```powershell
+docker compose down
+```
+
+### View running containers
+
+```powershell
+docker compose ps
+```
+
+### View all logs
+
+```powershell
+docker compose logs
+```
+
+### Follow logs live
+
+```powershell
+docker compose logs -f
+```
+
+### View backend logs
+
+```powershell
+docker compose logs -f server
+```
+
+### View frontend logs
+
+```powershell
+docker compose logs -f client
+```
+
+### View last 30 backend log lines
+
+```powershell
+docker compose logs --tail=30 server
+```
+
+### Rebuild only
+
+```powershell
+docker compose build
+```
+
+### Restart containers
+
+```powershell
+docker compose restart
+```
+
+---
+
+# 🧹 Docker Cleanup
+
+Stop and remove containers and the Compose network:
+
+```powershell
+docker compose down
+```
+
+Remove containers, network, and images created by Compose:
+
+```powershell
+docker compose down --rmi local
+```
+
+> Do not use aggressive Docker cleanup commands unless you understand what they remove.
+
+Your MongoDB Atlas database is separate from these containers, so removing the containers does **not** delete the Atlas database.
+
+---
+
+# 🔒 Docker Security
+
+The following files should not contain secrets:
+
+```text
+Dockerfile
+docker-compose.yml
+README.md
+```
+
+Sensitive values should remain in:
+
+```text
+server/.env
+```
+
+The `.env` file should remain ignored by Git.
+
+The project also uses:
+
+```text
+client/.dockerignore
+server/.dockerignore
+```
+
+to prevent unnecessary files such as:
+
+```text
+node_modules
+.env
+.git
+npm-debug.log
+```
+
+from being included in Docker build contexts.
+
+---
+
+# ☁️ Deployment Architecture
+
+The project currently supports a cloud deployment architecture:
+
+```text
+                 Internet
+                    │
+                    ▼
+          ┌───────────────────┐
+          │      Vercel       │
+          │ React Frontend    │
+          └─────────┬─────────┘
+                    │
+                    ▼
+          ┌───────────────────┐
+          │      Render       │
+          │ Node + Express    │
+          └─────────┬─────────┘
+                    │
+                    ▼
+          ┌───────────────────┐
+          │   MongoDB Atlas   │
+          └───────────────────┘
+```
+
+Docker provides a reproducible local/containerized environment for the same application.
+
+---
+
+# 🧪 Local Development Without Docker
+
+### Frontend
+
+```powershell
 cd client
+npm install
 npm run dev
 ```
 
-Frontend: https://eligentiaa24.vercel.app
-Backend health check: https://eligentia-api.onrender.com
-API: https://eligentia-api.onrender.com/api
+### Backend
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-ELIGENTIA-blue?style=for-the-badge)](https://eligentiaa24.vercel.app/)
-## Demo Credentials
-
-**Admin**
-- Email: `admin@eligentia.com`
-- Password: `Admin@123`
-
-**Students** (all use password `Student@123`)
-- `aarav@eligentia.com` — strong profile, high CGPA, no backlogs
-- `isha@eligentia.com` — mid CGPA, 1 backlog, MERN-leaning skills
-- `rohan@eligentia.com` — top profile, multiple certifications and projects
-- `priya@eligentia.com` — low CGPA, 2 backlogs, minimal skills (demonstrates "not eligible")
-- `kabir@eligentia.com` — solid MERN profile
-
-Log in as different students and open the same job to see how eligibility and match percentage change based on each profile.
-
-## API Overview
-
-```
-POST   /api/auth/register
-POST   /api/auth/login
-GET    /api/auth/me
-
-GET    /api/students/profile
-PUT    /api/students/profile
-GET    /api/students/readiness
-
-POST   /api/resumes/upload
-GET    /api/resumes
-
-GET    /api/companies
-POST   /api/companies              (admin)
-PUT    /api/companies/:id          (admin)
-DELETE /api/companies/:id          (admin)
-
-GET    /api/placements
-GET    /api/placements/:id
-GET    /api/placements/:id/match   (student)
-POST   /api/placements             (admin)
-PUT    /api/placements/:id         (admin)
-DELETE /api/placements/:id         (admin)
-
-POST   /api/applications           (student)
-GET    /api/applications/my        (student)
-GET    /api/applications           (admin)
-PUT    /api/applications/:id/status (admin)
-
-GET    /api/notifications
-PUT    /api/notifications/:id/read
-PUT    /api/notifications/read-all
-
-GET    /api/admin/dashboard
-GET    /api/admin/students
+```powershell
+cd server
+npm install
+npm start
 ```
 
-All responses follow `{ success: boolean, ...data }` or `{ success: false, message: string }` on error.
+Docker is recommended when you want the frontend and backend environments to be isolated and reproducible.
 
-## Future Improvements
+---
 
-- Plug an LLM into `server/services/aiService.js` (not required for this version) for semantic skill matching, deeper resume parsing, and job-description analysis
-- Email/SMS notifications alongside in-app ones
-- Resume versioning and richer parsing (structured section extraction)
-- Bulk CSV import for companies/drives
-- Analytics export (CSV/PDF) for placement officers
+# 🧠 What I Learned From This Project
+
+Through ELIGENTIA, I worked with:
+
+* MERN stack development
+* React component architecture
+* REST API development
+* JWT authentication
+* MongoDB Atlas
+* API integration using Axios
+* File upload handling
+* Environment variables
+* Docker images
+* Docker containers
+* Docker Compose
+* Multi-stage Docker builds
+* Nginx
+* WSL 2
+* Git & GitHub
+* Vercel deployment
+* Render deployment
+
+---
+
+# 🚧 Future Improvements
+
+Potential future enhancements include:
+
+* AI-powered resume parsing
+* More advanced job-description analysis
+* Automated skill extraction
+* Personalized learning roadmap
+* Job recommendation system
+* Resume scoring
+* More detailed analytics
+* Cloud-based resume storage
+* Role-based dashboards
+* Automated job matching
+
+---
+
+# 👨‍💻 Developer
+
+### Kshitij Rastogi
+
+**MCA Student | Software Developer**
+
+Interested in:
+
+```text
+Java
+DSA
+MERN Stack
+Web Development
+AI/ML
+Cloud & Docker
+```
+
+GitHub:
+
+https://github.com/Kshitij2420
+
+---
+
+# ⭐ Project
+
+If you find ELIGENTIA useful or interesting, consider giving the repository a ⭐ on GitHub.
+
+> **ELIGENTIA — Know Your Fit. Find Your Gaps. Build Your Future.**
+
+
+## 💼 Recruiter-Focused Project Summary
+
+**ELIGENTIA** is a full-stack **MERN-based Smart Eligibility & Placement Intelligence Platform** that helps students evaluate their profile against job requirements, identify skill gaps, and understand areas for improvement.
+
+### Engineering Highlights
+
+* **Full-stack MERN architecture** with a React + Vite frontend and Node.js + Express REST API backend.
+* Implemented **JWT-based authentication** with protected backend routes for secure user access.
+* Integrated **MongoDB Atlas** for persistent user, profile, and application-related data.
+* Built RESTful API communication between frontend and backend using **Axios**.
+* Implemented **resume/file upload workflows** on the backend.
+* Developed eligibility analysis functionality to identify **matched skills, missing skills, and profile gaps** against job requirements.
+* Used **Recharts** to present profile and analysis information through visual dashboards.
+* Containerized the frontend and backend using **Docker** and created a multi-container development environment with **Docker Compose**.
+* Used a **multi-stage Docker build** for the React frontend, with Nginx serving the optimized production build.
+* Configured separate frontend and backend environments using **environment variables**, keeping sensitive configuration outside source control.
+* Deployed the application using **Vercel, Render, and MongoDB Atlas**.
+
+### Architecture
+
+```text
+React + Vite
+     │
+     │ REST API / Axios
+     ▼
+Node.js + Express
+     │
+     ├── JWT Authentication
+     ├── Eligibility Analysis
+     ├── Resume Upload
+     └── REST API
+            │
+            ▼
+       MongoDB Atlas
+```
+
+### Docker Architecture
+
+
+Docker Compose
+      │
+      ├── Client Container
+      │     └── React + Nginx
+      │          Port: 5173
+      │
+      └── Server Container
+            └── Node + Express
+                 Port: 5000
+                      │
+                      ▼
+                 MongoDB Atlas
+
+
+### Project Value
+
+The project demonstrates practical experience across the **frontend, backend, database, authentication, API integration, deployment, and containerization layers** of a modern web application.
+
+It also demonstrates the ability to take a project from development through **Git/GitHub version control, Docker-based local deployment, and cloud deployment**.
