@@ -350,32 +350,163 @@ as a reference for configuring the frontend.
 
 ---
 
-# 🐳 Docker Documentation
+# 🐳 Docker Architecture
 
 ELIGENTIA uses a multi-container Docker architecture.
 
+The frontend runs inside a Docker container with **React + Nginx**, while the backend runs inside a separate **Node.js + Express** container. MongoDB Atlas is used as the external cloud database.
+
+### Docker Workflow
+
+```mermaid
+flowchart LR
+
+    Client([Client :5173]) --> Nginx[Nginx :80]
+    Nginx --> App[Node.js + Express :5000]
+    App --> DB[(MongoDB Atlas)]
+
+    Docker[Docker Compose] -. manages .-> Nginx
+    Docker -. manages .-> App
+
+    classDef client fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    classDef app fill:#0f172a,stroke:#22c55e,stroke-width:2px,color:#fff
+    classDef db fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fff
+    classDef docker fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#fff
+
+    class Client client
+    class Nginx,App app
+    class DB db
+    class Docker docker
+```
+
+### Docker Request Flow
+
 ```text
-┌───────────────────────────────────────────────┐
-│              Docker Compose                   │
-│                                               │
-│   ┌────────────────┐    ┌────────────────┐    │
-│   │     Client     │    │     Server     │    │
-│   │                │    │                │    │
-│   │ React + Nginx  │───▶│ Node + Express │    │
-│   │   Port 5173    │    │   Port 5000    │    │
-│   └────────────────┘    └───────┬────────┘    │
-│                                  │             │
-└──────────────────────────────────┼─────────────┘
-                                   │
-                                   ▼
-                          MongoDB Atlas
+Browser
+   │
+   ▼
+React Frontend
+   │
+   ▼
+Nginx Container
+   │
+   ▼
+Node.js + Express Container
+   │
+   ▼
+MongoDB Atlas
+```
+
+### Docker Services
+
+| Service  | Technology     | Container Port | Local Port |
+| -------- | -------------- | -------------: | ---------: |
+| Client   | React + Nginx  |             80 |       5173 |
+| Server   | Node + Express |           5000 |       5000 |
+| Database | MongoDB Atlas  |          Cloud |      Cloud |
+
+---
+
+# 🗄️ Database Architecture
+
+ELIGENTIA uses **MongoDB Atlas** as its persistent cloud database.
+
+The React frontend does **not** connect directly to MongoDB. All database requests pass through the Node.js + Express backend.
+
+### Database Workflow
+
+```mermaid
+flowchart LR
+
+    Client([React Client :5173]) --> Nginx[Nginx :80]
+    Nginx --> API[Node.js + Express :5000]
+
+    API --> JWT[JWT Authentication]
+    API --> Profile[Student Profile]
+    API --> Eligibility[Eligibility Analysis]
+    API --> Resume[Resume Upload]
+
+    JWT --> DB[(MongoDB Atlas)]
+    Profile --> DB
+    Eligibility --> DB
+    Resume --> DB
+
+    classDef client fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    classDef api fill:#0f172a,stroke:#22c55e,stroke-width:2px,color:#fff
+    classDef service fill:#0f172a,stroke:#a78bfa,stroke-width:2px,color:#fff
+    classDef db fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fff
+
+    class Client client
+    class Nginx,API api
+    class JWT,Profile,Eligibility,Resume service
+    class DB database
+```
+
+### Database Request Flow
+
+```text
+User / Browser
+      │
+      ▼
+┌───────────────────────┐
+│   React Frontend      │
+│   Vite + Axios        │
+└───────────┬───────────┘
+            │
+            │ REST API
+            ▼
+┌───────────────────────┐
+│   Node.js + Express   │
+│      REST API         │
+└───────┬───────┬───────┘
+        │       │
+        │       └── JWT Authentication
+        │           Protected Routes
+        │
+        │ MongoDB Connection
+        ▼
+┌──────────────────────────┐
+│      MongoDB Atlas        │
+│                          │
+│ User / Profile /         │
+│ Application-related      │
+│ Data                     │
+└──────────────────────────┘
+```
+
+### Database Security Flow
+
+```mermaid
+flowchart LR
+
+    User([User]) --> Frontend[React Frontend]
+    Frontend --> API[Express REST API]
+    API --> JWT[JWT Middleware]
+    JWT --> Controller[Controller]
+    Controller --> Model[Mongoose Model]
+    Model --> DB[(MongoDB Atlas)]
+
+    DB --> Model
+    Model --> Controller
+    Controller --> API
+    API --> Frontend
+
+    classDef user fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    classDef frontend fill:#0f172a,stroke:#22c55e,stroke-width:2px,color:#fff
+    classDef backend fill:#0f172a,stroke:#a78bfa,stroke-width:2px,color:#fff
+    classDef database fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fff
+
+    class User user
+    class Frontend frontend
+    class API,JWT,Controller,Model backend
+    class DB database
 ```
 
 ---
 
-## Docker Files
+# 📄 Docker Files
 
-### `client/Dockerfile`
+## `client/Dockerfile`
 
 The frontend uses a **multi-stage Docker build**.
 
@@ -402,7 +533,7 @@ The final container uses Nginx instead of running the Vite development server.
 
 ---
 
-### `server/Dockerfile`
+## `server/Dockerfile`
 
 The backend container:
 
@@ -828,8 +959,9 @@ If you find ELIGENTIA useful or interesting, consider giving the repository a �
 
 > **ELIGENTIA — Know Your Fit. Find Your Gaps. Build Your Future.**
 
+---
 
-## 💼 Recruiter-Focused Project Summary
+# 💼 Recruiter-Focused Project Summary
 
 **ELIGENTIA** is a full-stack **MERN-based Smart Eligibility & Placement Intelligence Platform** that helps students evaluate their profile against job requirements, identify skill gaps, and understand areas for improvement.
 
@@ -849,38 +981,64 @@ If you find ELIGENTIA useful or interesting, consider giving the repository a �
 
 ### Architecture
 
-```text
-React + Vite
-     │
-     │ REST API / Axios
-     ▼
-Node.js + Express
-     │
-     ├── JWT Authentication
-     ├── Eligibility Analysis
-     ├── Resume Upload
-     └── REST API
-            │
-            ▼
-       MongoDB Atlas
+```mermaid
+flowchart LR
+    Client([React + Vite]) --> Axios[Axios]
+    Axios --> API[Node.js + Express]
+    API --> JWT[JWT Authentication]
+    API --> Analysis[Eligibility Analysis]
+    API --> Upload[Resume Upload]
+    API --> DB[(MongoDB Atlas)]
 ```
 
 ### Docker Architecture
 
+```mermaid
+flowchart LR
+    Client([Client :5173]) --> Nginx[Nginx :80]
+    Nginx --> App[Node.js + Express :5000]
+    App --> DB[(MongoDB Atlas)]
 
-Docker Compose
-      │
-      ├── Client Container
-      │     └── React + Nginx
-      │          Port: 5173
-      │
-      └── Server Container
-            └── Node + Express
-                 Port: 5000
-                      │
-                      ▼
-                 MongoDB Atlas
+    Docker[Docker Compose] -. manages .-> Nginx
+    Docker -. manages .-> App
 
+    classDef client fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    classDef app fill:#0f172a,stroke:#22c55e,stroke-width:2px,color:#fff
+    classDef db fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fff
+    classDef docker fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#fff
+
+    class Client client
+    class Nginx,App app
+    class DB db
+    class Docker docker
+```
+
+### Database Architecture
+
+```mermaid
+flowchart LR
+    User([User]) --> Frontend[React Frontend]
+    Frontend --> API[Express REST API]
+    API --> JWT[JWT Middleware]
+    JWT --> Controller[Controllers]
+    Controller --> Model[Mongoose Models]
+    Model --> DB[(MongoDB Atlas)]
+
+    DB --> Model
+    Model --> Controller
+    Controller --> API
+    API --> Frontend
+
+    classDef user fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    classDef frontend fill:#0f172a,stroke:#22c55e,stroke-width:2px,color:#fff
+    classDef backend fill:#0f172a,stroke:#a78bfa,stroke-width:2px,color:#fff
+    classDef database fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#fff
+
+    class User user
+    class Frontend frontend
+    class API,JWT,Controller,Model backend
+    class DB database
+```
 
 ### Project Value
 
